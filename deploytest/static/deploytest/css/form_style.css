@@ -1,0 +1,64 @@
+.form-styling {
+    background-color: #dfdfdf;
+    border: 5px solid #7881ae;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.form-styling input[type="text"], 
+.form-styling input[type="number"], 
+.form-styling textarea,
+.form-styling select {
+    width: 80%;
+    margin: auto;
+}
+
+.form-styling label {
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+
+/* taken from home_style.css */
+.form-styling button {
+    background-color: white;
+    border: 3px solid #3a3a66;
+    color: #3a3a66;
+    font-weight: bold;
+}
+
+.form-styling button:hover,
+.form-styling button:focus,
+.form-styling button:active,
+.form-styling button:active:hover{
+    background-color: #3a3a66;
+    border: 3px solid #3a3a66;
+    color: white;
+    transition: none; /* Remove transition effect */
+    box-shadow: none; /* Remove box shadow */
+}
+
+.col-auto {
+    padding: 0 0 1em 0;
+}
+
+.form-styling a {
+    background-color: white;
+    border: 3px solid #3a3a66;
+    color: #3a3a66;
+    font-weight: bold;
+    margin: auto;
+    max-width: 15%;
+}
+
+.form-styling a:hover,
+.form-styling a:focus,
+.form-styling a:active,
+.form-styling a:active:hover{
+    background-color: #3a3a66;
+    border: 3px solid #3a3a66;
+    color: white;
+    transition: none; /* Remove transition effect */
+    box-shadow: none; /* Remove box shadow */
+}

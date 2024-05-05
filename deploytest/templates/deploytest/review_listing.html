@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Review listing{% endblock %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/dashboard_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/form_style.css' %}">
+
+<div class="container mt-4 text-center padding-bottom">
+    <h1 class="main-header">Review Listing</h1>
+    <form class="form-styling" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons css_class="btn btn-outline-light" submit="Submit" %}{% endbuttons %}
+    </form>
+</div>
+{% endblock %}

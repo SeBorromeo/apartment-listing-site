@@ -1,0 +1,16 @@
+.custom-screen-size {
+    width: 100vw;
+    height: 100vh;
+    padding: 20px 350px 20px 350px;
+}
+
+.custom-image {
+    width: 200px;
+    height: 200px;
+}
+
+.logo-card {
+    background: #7881ae;
+    padding: 20px;
+    margin: 8px 0;
+}

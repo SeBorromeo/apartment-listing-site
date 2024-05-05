@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="custom-listing-list col-md-3 pl-0 pr-0">
+            <!-- Display listings -->
+            <div class="listing-container" style="height: 820px;"> <!-- temporary height max for beta testing -->
+                <!-- Filter dropdown -->
+                <!-- Filter Modal (Pop up) -->
+                <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#exampleModalCenter">
+                    Apply Filters
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Filtering form without a container -->
+                                <form method="get" action="?{{ request.GET.urlencode }}">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="rent_per_month">Monthly Rent (Maximum):</label>
+                                                {{ filter.form.rent_per_month }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="apartment_name">Apartment Name:</label>
+                                                {{ filter.form.apartment_name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="address">Address:</label>
+                                                {{ filter.form.address }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="parking">Parking:</label>
+                                                {{ filter.form.parking }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="num_beds">Number of Beds:</label>
+                                                {{ filter.form.num_beds }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="num_baths">Number of Bathrooms:</label>
+                                                {{ filter.form.num_baths }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button type="submit" class="btn btn-outline-light">Apply Filters</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Display listings -->
+                {% for listing in listings %}
+                <div class="listing-square">
+                    <a class="custom-listing-address-name" href="{% url 'listing_detail' listing.id %}">{{ listing.apartment_name }}</a>
+                    <p>{{ listing.address }}</p>
+                    <p class="custom-listing-rent"> ${{ listing.rent_per_month }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-9 pl-0 pr-0">
+            <div id="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+<script>
+    var markers_list = [];
+    var info_windows_list = [];
+    var map;
+
+    function addMarker(lat, lng, title) {
+        var lat = parseFloat(lat);
+        var lng = parseFloat(lng);
+
+        var marker = new google.maps.Marker({
+            position: { lat: lat, lng: lng },
+            map: map,
+            title: title
+        });
+        markers_list.push(marker);
+    }
+
+    function addInfoWindow(content) {
+        var info_window = new google.maps.InfoWindow({
+            content: content
+        });
+        info_windows_list.push(info_window);
+    }
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 14,
+            center: { lat: 38.0312, lng: -78.4989 }, //UVA hospital coordinates
+        });
+
+        var markers = {{ markers_json|safe }}
+        var info_windows = {{ info_windows|safe }}
+
+        markers.forEach(function(markerCode, index) {
+            if (markerCode) {
+                eval(markerCode);
+                eval(info_windows[index]);
+
+                google.maps.event.addListener(markers_list[index], 'click', function() {
+                    //close all other info windows
+                    info_windows_list.forEach(function(infoWindow) {
+                        infoWindow.close();
+                    });
+
+                    //open the clicked marker's info window
+                    info_windows_list[index].open(map, markers_list[index]);
+                });
+            }
+        });
+    }
+
+    window.initMap = initMap;
+</script>
+
+<script async src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script>
+{% endblock %}
+

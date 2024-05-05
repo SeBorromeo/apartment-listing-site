@@ -1,0 +1,26 @@
+.custom-navbar {
+    background-color: #3a3a66;
+    height: 120px;
+    padding: 20px;
+}
+
+.custom-footer {
+    background-color: #3a3a66;
+}
+
+.custom-project-title {
+    font-style: bold;
+    font-weight: 500;
+    font-size: 60px;
+    font-family: 'Stencil Std', fantasy;
+}
+
+.custom-nav-link {
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#content {
+    margin: 0 !important;
+    padding: 0 !important;
+}

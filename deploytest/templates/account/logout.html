@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+{% block title %}Sign Out{% endblock title %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/login_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/dashboard_style.css' %}">
+
+<div class="container text-center custom-screen-size">
+    <h1 class="main-header">Sign Out</h1>
+    <hr class="my-4"> <!-- Horizontal line -->
+
+    <p>Are you sure you want to sign out?</p>
+
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button type="submit" class="btn btn-outline-light">Sign Out</button>
+    </form>
+
+</div>
+{% endblock content %}

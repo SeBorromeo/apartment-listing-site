@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+{% block title %}
+    test
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/dashboard_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+
+<div class="container mt-4 text-center padding-bottom">
+    <h1 class="main-header">Messages</h1>
+    <hr class="my-4"> <!-- Horizontal line -->
+        {% for message in listing_messages %}
+        <div class="listing-square">
+            <h6 class="message-card-header">From: {{ message.author }}</h6>
+            <p>{{ message.message }}</p>
+        </div>
+        {% empty %}
+            <p>No messages.</p>
+        {% endfor %}
+        <form id="clear_form" style="padding-top:10px" action="{% url 'clear_messages' %}" method="get">
+            <button onclick="confirmAction()" class="btn btn-outline-light">Clear Messages</button>
+        </form>
+</div>
+
+{% endblock %}
+
+{% block bottom_scripts %}
+<script>
+    function confirmAction() {
+        var isConfirmed = window.confirm("Are you sure you want to proceed? Messages will not longer be able to be retrieved after clearing.");
+        if (isConfirmed) {
+            document.getElementById("clear_form").submit();
+        } else {
+            alert("Action canceled.");
+        }
+    }
+</script>
+{% endblock %}

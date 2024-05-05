@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bootstrap5 %}
+
+{% block head %}
+{#    needed for JS/Google Map lookup of addresses #}
+{{ form.media }}
+{% endblock %}
+
+{% block title %}
+Update Listing
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/dashboard_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/form_style.css' %}">
+
+<div class="container mt-4 text-center padding-bottom">
+    <h1 class="main-header">Update Listing</h1>
+    <form class="form-styling" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        <br />
+        <label class="form-label">Community Amenities</label>
+        {{ amenity_formset.non_form_errors }}
+        {{ amenity_formset.management_form }}
+        {% for form in amenity_formset %}
+            <div class="inline {{ amenity_formset.prefix }}">
+                {% for field in form.visible_fields %}
+                    {% bootstrap_field field show_label=False layout='inline' %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <br />
+        <label class="form-label">Apartment Features</label>
+        {{ feature_formset.non_form_errors }}
+        {{ feature_formset.management_form }}
+        {% for form in feature_formset %}
+            <div class="inline {{ feature_formset.prefix }}">
+                {% for field in form.visible_fields %}
+                    {% bootstrap_field field show_label=False layout='inline' %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <br />
+        <label class="form-label">Included Utilities</label>
+        {% bootstrap_form utility_form %}
+
+        {% buttons css_class="btn btn-outline-light" submit="Update" %}{% endbuttons %}
+    </form>
+</div>
+{% endblock %}
+
+{% block bottom_scripts %}
+<script src="{% static 'deploytest/js/jquery.formset.js' %}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript">
+    var suggestedAmenities = [ 
+        "Pool", "Dog Park", "Laundry Facilities", "Playground", "Grill", "Picnic Area", "Renters Insurance", "Public Transportation", "Pets Allowed"
+    ]; 
+
+    var suggestedFeatures = [ 
+        "Air Conditioning", "High Speed Internet Access", "Cable Ready", "Tub/Shower", "Dishwasher", "Disposal", "Granite Countertops", "Kitchen", "Balcony", "Refrigerator", "Carpet", "Walk-In Closets", "Hardwood Floors", "Smoke Free" 
+    ];
+
+    function addAutoComplete(formset_prefix, suggestions) { 
+    $(".inline." + formset_prefix + " input").autocomplete({ 
+        source: suggestions 
+    }); 
+    }
+
+    function addAutoCompleteAmenities() { 
+        addAutoComplete("{{ amenity_formset.prefix }}", suggestedAmenities);
+    }
+
+    function addAutoCompleteFeatures() { 
+        addAutoComplete("{{ feature_formset.prefix }}", suggestedFeatures);
+    }
+    
+    $(function() {  
+        $(".inline.{{ amenity_formset.prefix }}").formset({
+            prefix: "{{ amenity_formset.prefix }}", 
+            addCssClass: "btn btn-block btn-primary bordered inline-form-add", 
+            deleteCssClass: "btn btn-block mb-3 bordered", 
+            addText: 'Add Amenity', 
+            deleteText: 'Remove Amenity', 
+            formCssClass: 'inline-form',
+            added: addAutoCompleteAmenities
+        })
+    });
+    $(function() {  
+        $(".inline.{{ feature_formset.prefix }}").formset({
+            prefix: "{{ feature_formset.prefix }}", 
+            addCssClass: "btn btn-block btn-primary bordered inline-form-add", 
+            deleteCssClass: "btn btn-block mb-3 bordered", 
+            addText: 'Add Feature', 
+            deleteText: 'Remove Feature', 
+            formCssClass: 'inline-form',
+            added: addAutoCompleteFeatures
+        })
+    });
+    $(addAutoCompleteAmenities);
+    $(addAutoCompleteFeatures);
+ 
+    $(".inline.{{ amenity_formset.prefix }} input").prop('required',true);
+    $(".inline.{{ feature_formset.prefix }} input").prop('required',true);
+
+</script>
+{% endblock %}

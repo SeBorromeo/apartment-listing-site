@@ -1,0 +1,2 @@
+# exclude all tests.py files, all migrations files, and the site's settings file
+extend-exclude = ["tests.py", "**/migrations/*.py", "b20/settings.py"]

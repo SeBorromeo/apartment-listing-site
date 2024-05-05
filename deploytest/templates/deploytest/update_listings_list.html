@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage my listings{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/dashboard_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+
+<div class="container mt-4 text-center padding-bottom">
+    <h1 class="main-header">Manage Listings</h1>
+    <hr class="my-4"> <!-- Horizontal line -->
+        {% if denied_listings %}
+            <h2 class="mt-4">Listings Denied</h2>
+            <p>Please update and address the issues stated in your Messages Inbox!</p>
+        {% endif %}
+
+        {% for listing in denied_listings %}
+            <div class="listing-square">
+                <a class="custom-listing-address-name" href="{% url 'update_listing' listing.id %}">Manage {{ listing.apartment_name }}</a>
+                <p>{{ listing.address }}</p>
+            </div>
+        {% endfor %}
+
+        {% if awaiting_approval_listings %}
+            <h2 class="my-4">Listings Awaiting Approval</h2>
+        {% endif %}
+
+        {% for listing in awaiting_approval_listings %}
+            <div class="listing-square">
+                <a class="custom-listing-address-name" href="{% url 'update_listing' listing.id %}">Manage {{ listing.apartment_name }}</a>
+                <p>{{ listing.address }}</p>
+            </div>
+        {% endfor %}
+        
+        {% if approved_listings %}
+            <h2 class="my-4">Your Live Listings</h2>
+        {% endif %}
+
+        {% for listing in approved_listings %}
+            <div class="listing-square">
+                <a class="custom-listing-address-name" href="{% url 'update_listing' listing.id %}">Manage {{ listing.apartment_name }}</a>
+                <p>{{ listing.address }}</p>
+            </div>
+        {% endfor %}
+
+        {% if not awaiting_approval_listings and not approved_listings and not denied_listings %}
+            <p>No listings to manage</p>
+        {% endif %}
+</div>
+    
+{% endblock %}

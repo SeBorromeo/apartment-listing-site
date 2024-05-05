@@ -1,0 +1,24 @@
+{# overriding the confirm social account login page #}
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/login_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/dashboard_style.css' %}">
+
+<div class="container text-center custom-screen-size">
+    <h1 class="main-header">Confirm Sign In Via Google</h1>
+    <hr class="my-4"> <!-- Horizontal line -->
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-light">Confirm</button>
+    </form>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,53 @@
+.main-header{
+    color: #3a3a66;
+    font-size: 60px;
+    font-weight: 500;
+    font-family: 'Stencil Std', fantasy;
+}
+
+.sub-header {
+    color: #3a3a66;
+    font-size: 30px;
+    font-weight: 500;
+    font-family: 'Stencil Std', fantasy;
+    padding-top: 40px;
+}
+.custom-screen-size {
+    width: 100vw;
+    height: 100vh;
+}
+
+.card-background-lightpurple {
+    background-color: #7881ae;
+    padding: 10px;
+    margin: 8px 0;
+}
+
+.card-background-lightgrey {
+    background-color: #dfdfdf;
+}
+.custom-card-text {
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #3a3a66
+}
+
+.card-title {
+    font-size: 30px;
+    font-family: 'Stencil Std', fantasy;
+    color: #3a3a66
+}
+
+.btn-outline-light {
+    padding: 0 20px;
+}
+
+.padding-bottom {
+    padding-bottom: 10vh;
+}
+
+.message-card-header {
+    color: black;
+    font-size: 25px;
+    font-family: 'Stencil Std', fantasy;
+}

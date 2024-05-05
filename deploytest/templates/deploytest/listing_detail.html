@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+{% load humanize %}
+
+{% block title %}
+    {{ listing.apartment_name }}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4 overflow-auto">
+    <div class="row gx-5 rounded">
+        <div class="col-lg-9">
+            <h1 style="font-size: 70px;">{{ listing.apartment_name }}</h1>
+            <p style="font-size: x-large;">{{ listing.address }}</p>
+
+            <div class="row my-3 mx-1 p-3  border rounded">
+                    <div class="col text-center"> Monthly Rent<br> <b>${{ listing.rent_per_month|intcomma }}</b></div>
+                    <div class="col text-center border-start"> Bedrooms <br> <b>{{ listing.num_beds }} bd</b></div>
+                    <div class="col text-center border-start"> Bathrooms <br> <b>{{ listing.num_baths }} bth</b></div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Listing Details</h5>
+                    <p class="card-text">{{ listing.description }}</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"> {{ listing.listing_description }}</li>
+                            <li class="list-group-item">Type: {{ listing.listing_type }}</li>
+                            <li class="list-group-item"> Begins: {{ listing.lease_start }}, Ends: {{ listing.lease_end }}</li>
+                            {% if listing.square_feet > 0 %}
+                            <li class="list-group-item">Size: {{ listing.square_feet|intcomma }} sq. ft.</li>
+                            {% endif %}
+                            {% if provided_utilities %}
+                            <li class="list-group-item">Utilities included: 
+                                
+                                {% for utility in provided_utilities %}
+                                    {{ utility.verbose_name }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <div class="col-sm"> 
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Listing Author</h4>
+                        <p class="text-center">{{ listing.author.first_name }} {{ listing.author.last_name }}</p>
+                        <div class="d-grid gap-2 col-10 mx-auto text-center">
+                            <a href="mailto: {{ listing.author.email }}" class="btn btn-primary mt-2">Contact</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <h1 class="display-5 mt-4">About {{ listing.apartment_name }}</h1>
+    <p> {{ listing.apartment_description }} </p>
+
+    <h1 class="display-5 mt-4">Amenities</h1>
+    <ul>
+        {% for amenity in listing.amenity_set.all %}
+        <li>{{ amenity.amenity }}<br></li>   
+        {% endfor %}
+    </ul>
+
+    <h1 class="display-5 mt-4">Features</h1>
+    <ul>
+        {% for feature in listing.feature_set.all %}
+        <li>{{ feature.feature }}<br></li>   
+        {% endfor %}
+    </ul>
+    
+    {% if photo_srcs %}
+        <h1 class="display-5 mt-4">Photo Gallery</h1>
+        {% for photo in photo_srcs %}
+            <img src="{{ photo }}">
+        {% endfor %}
+        <p>Provided by Google Images</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block bottom_scripts %}
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script>
+{% endblock %}

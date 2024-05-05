@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	View all listings
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/dashboard_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+
+<div class="container mt-4 text-center padding-bottom">
+    <h1 class="main-header">Moderate Listings</h1>
+    <hr class="my-4"> <!-- Horizontal line -->
+        {% for listing in object_list %}
+        <div class="listing-square">
+            <a class="custom-listing-address-name" href="{% url 'admin_moderate_listing' listing.id %}">Moderate {{ listing.apartment_name }}</a>
+            <p>{{ listing.address }}</p>
+            <a href="{% url 'listing_detail' listing.id %}">View listing</a>
+        </div>
+        {% empty %}
+            <p>No listings to moderate.</p>
+        {% endfor %}
+</div>
+{% endblock %}

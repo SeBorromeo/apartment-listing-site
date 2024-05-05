@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/dashboard_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/home_style.css' %}">
+
+
+<div class="container mt-4 custom-screen-size text-center">
+    <h1 class="main-header">Dashboard</h1>
+    <p>Welcome to your Dashboard {{user.username}}!</p>
+    <hr class="my-4"> <!-- Horizontal line -->
+
+
+    <div class="card mt-4 card-background-lightpurple">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column align-items-center text-center card-background-lightgrey">
+                            <h5 class="card-title">Manage Listings</h5>
+                            <p class="card-text">View and update your current listings. Each update must also be approved by an admin.</p>
+                            <a href="{% url 'manageable_listings' %}" class="btn btn-outline-light mt-auto">-></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column align-items-center text-center card-background-lightgrey">
+                            <h5 class="card-title">Messages</h5>
+                            <p class="card-text">View messages for listing request approvals/rejections.</p>
+                            <a href="{% url 'messages' %}" class="btn btn-outline-light mt-auto">-></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if is_admin %}
+    <h2 class="sub-header">Admin Only</h2>
+    <div class="card mt-4 card-background-lightpurple">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column align-items-center text-center card-background-lightgrey">
+                            <h5 class="card-title">Listings Pending Review</h5>
+                            <p class="card-text">Approve or reject listings that have been submitted by users.</p>
+                            <a href="{% url 'admin_listings_pending_review' %}" class="btn btn-outline-light mt-auto">-></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column align-items-center text-center card-background-lightgrey">
+                            <h5 class="card-title">Moderate All Listings</h5>
+                            <p class="card-text"></p>
+                            <a href="{% url 'admin_all_listings' %}" class="btn btn-outline-light mt-auto">-></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

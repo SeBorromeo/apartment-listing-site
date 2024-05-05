@@ -1,0 +1,101 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <!-- Bootstrap CSS and JS-->
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <!-- External Bootstrap and Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- Bootstrap JS dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'deploytest/css/style.css' %}">
+
+    <!-- Additional Head Content (if any) -->
+    {% block head %}{% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+<!--- Navbar --->
+<nav class="navbar custom-navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand custom-project-title" href="{% url 'home' %}">B-20 Housing</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link custom-nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link custom-nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link custom-nav-link" href="{% url 'create_listing' %}">Create Listing</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link custom-nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cog"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <p class="dropdown-item-text">
+                        {% if is_app_administrator %}
+                        Admin: {{ user.username }}
+                        {% else %}
+                        User: {{ user.username }}
+                        {% endif %}
+                    </p>
+                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                </div>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+</nav>
+<!--- End of Navbar --->
+
+<!--- Content --->
+<div id="content" class="container-fluid m-0">
+    {% block content %}{% endblock %}
+</div>
+<!--- End of Content --->
+
+<!--- Footer --->
+<footer class="text-center text-white" style="background-color: #3a3a66;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright:
+        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+</footer>
+<!--- End of Footer --->
+{% block bottom_scripts %}{% endblock %}
+</body>
+</html>
